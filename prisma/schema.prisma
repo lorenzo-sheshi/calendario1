@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Tipi di evento del calendario Circolari:
+//   - circolare    : circolari scolastiche da firmare per presa visione
+//   - impegno      : impegni / compiti / scadenze
+//   - compleanno   : compleanni ricorrenti
+model Event {
+  id        String   @id // generato lato client (timestamp+random base36) per compat con .ics UID
+  deviceId  String   // isolamento per-browser (mantiene comportamento single-user originale)
+  type      String   // circolare | impegno | compleanno
+  title     String
+  date      String   // YYYY-MM-DD
+  time      String?  // HH:MM (opzionale)
+  notes     String?
+  signed    String?  // ISO timestamp firma (per circolari); null = non firmata
+  source    String?  // "manual" | "media:<mediaId>" | "gmail:<messageId>"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  media         MediaFile?      @relation("event")
+  importedEmail ImportedEmail?  @relation("importedEmailEvent")
+
+  @@index([deviceId, date])
+  @@index([deviceId, type])
+}
+
+// File multimediali caricati (PDF/PNG/JPG/...) per estrarre circolari.
+model MediaFile {
+  id         String   @id @default(cuid())
+  deviceId   String
+  filename   String   // nome originale
+  storedName String   // nome univoco su disco
+  mimeType   String
+  size       Int
+  parsed     Boolean  @default(false)
+  parsedRaw  String?  // testo grezzo estratto (PDF text, VLM descrizione)
+  parsedData String?  // JSON con dati evento suggeriti dal modello
+  eventId    String?  @unique // link 1:1 a Event se è stato creato
+  createdAt  DateTime @default(now())
+
+  event Event? @relation("event", fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([deviceId, createdAt])
+}
+
+// Account Gmail (IMAP) configurati per la lettura automatica delle circolari.
+// La appPassword è una "app password" Google (16 caratteri) - NON la password principale.
+model EmailAccount {
+  id            String   @id @default(cuid())
+  deviceId      String
+  email         String
+  appPassword   String   // app password Google (in chiaro su SQLite locale — vedi nota in API)
+  imapHost      String   @default("imap.gmail.com")
+  imapPort      Int      @default(993)
+  active        Boolean  @default(true)
+  searchFrom    String?  // filtro mittente (case-insensitive contains)
+  searchSubject String?  // filtro soggetto (case-insensitive contains)
+  lastSyncAt    DateTime?
+  lastUid       Int      @default(0)
+  syncedCount   Int      @default(0)
+  error         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([deviceId])
+}
+
+// Email importate da Gmail ma non ancora trasformate in evento.
+// L'utente può rivederle / scartarle / convertirle in evento.
+model ImportedEmail {
+  id         String   @id @default(cuid())
+  deviceId   String
+  accountId  String
+  messageId  String   // UID IMAP / Message-ID header
+  from       String
+  subject    String
+  date       DateTime
+  snippet    String   // prime righe del testo
+  bodyText   String   // body completo plain text
+  parsedData String?  // JSON con dati evento suggeriti
+  eventId    String?  @unique // se convertita in Event
+  dismissed  Boolean  @default(false) // scartata dall'utente
+  createdAt  DateTime @default(now())
+
+  event Event? @relation("importedEmailEvent", fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([deviceId, createdAt])
+  @@index([accountId])
+}

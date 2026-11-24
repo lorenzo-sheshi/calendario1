@@ -1,0 +1,576 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ============================================================
+ * Circolari · Belluzzi da Vinci — calendario PWA
+ * Stili preservati dal progetto originale, isolati sotto
+ * il wrapper .circolari-app per non collidere con shadcn/ui.
+ * ============================================================ */
+.circolari-app {
+  --c-bg: #eef0f8;
+  --c-card: #fff;
+  --c-ink: #14183a;
+  --c-mute: #646a8c;
+  --c-line: #e2e5f2;
+  --c-pri: #4338ca;
+  --c-circolare: #4338ca;
+  --c-impegno: #0d9488;
+  --c-compleanno: #e11d74;
+  --c-warn: #e5383b;
+  --c-sh: 0 10px 30px rgba(30, 30, 90, 0.08);
+  min-height: 100vh;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif;
+  padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.circolari-app * {
+  box-sizing: border-box;
+}
+
+.circolari-app.dark {
+  --c-bg: #0e1020;
+  --c-card: #181b33;
+  --c-ink: #eef0ff;
+  --c-mute: #9aa0c8;
+  --c-line: #262a4a;
+  --c-pri: #8b93ff;
+  --c-circolare: #8b93ff;
+  --c-impegno: #2dd4bf;
+  --c-compleanno: #ff6fa8;
+  --c-sh: none;
+}
+
+.circolari-app button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.circolari-app .top {
+  background: linear-gradient(120deg, #2f2a8f, #5b3fd0 60%, #c2339a);
+  color: #fff;
+  padding: calc(20px + env(safe-area-inset-top)) 20px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.circolari-app .top h1 {
+  font: 700 1.7rem/1.1 Georgia, "Times New Roman", serif;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.circolari-app .top p {
+  opacity: 0.8;
+  font-size: 0.9rem;
+  margin: 0;
+}
+.circolari-app .bellb {
+  background: rgba(255, 255, 255, 0.18);
+  border: 0;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.2rem;
+}
+
+.circolari-app .wrap {
+  max-width: 1020px;
+  margin: -44px auto 0;
+  padding: 0 14px;
+  display: grid;
+  gap: 14px;
+}
+@media (min-width: 820px) {
+  .circolari-app .wrap {
+    grid-template-columns: 1.5fr 1fr;
+    align-items: start;
+  }
+}
+
+.circolari-app .side {
+  display: grid;
+  gap: 14px;
+}
+.circolari-app .card {
+  background: var(--c-card);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: var(--c-sh);
+}
+.circolari-app .card h3 {
+  font: 600 1.05rem Georgia, serif;
+  margin-bottom: 10px;
+}
+.circolari-app .nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.circolari-app .nav h2 {
+  flex: 1;
+  font: 700 1.5rem/1.1 Georgia, serif;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 0;
+}
+.circolari-app .ib {
+  background: none;
+  border: 0;
+  font-size: 1.8rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--c-pri);
+}
+.circolari-app .pill {
+  border: 1px solid var(--c-line);
+  background: none;
+  border-radius: 99px;
+  padding: 6px 14px;
+}
+.circolari-app .chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+.circolari-app .chips button {
+  white-space: nowrap;
+  border: 1px solid var(--c-line);
+  background: none;
+  border-radius: 99px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+.circolari-app .chips .on {
+  background: var(--c-pri);
+  border-color: var(--c-pri);
+  color: #fff;
+}
+.circolari-app .wk,
+.circolari-app .grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.circolari-app .wk span {
+  text-align: center;
+  color: var(--c-mute);
+  font-size: 0.8rem;
+  padding: 4px 0;
+}
+.circolari-app .cell {
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  position: relative;
+}
+.circolari-app .cell.empty {
+  pointer-events: none;
+}
+.circolari-app .cell b {
+  font-weight: 600;
+}
+.circolari-app .cell i {
+  display: flex;
+  gap: 3px;
+  height: 6px;
+  font-style: normal;
+}
+.circolari-app .cell u {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c-c);
+  text-decoration: none;
+}
+.circolari-app .cell s {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c-warn);
+  text-decoration: none;
+}
+.circolari-app .cell.today {
+  box-shadow: inset 0 0 0 2px var(--c-pri);
+}
+.circolari-app .cell.sel {
+  background: var(--c-pri);
+  color: #fff;
+}
+.circolari-app .cell.sel u {
+  background: #fff;
+}
+
+.circolari-app .circolare {
+  --c-c: var(--c-circolare);
+}
+.circolari-app .impegno {
+  --c-c: var(--c-impegno);
+}
+.circolari-app .compleanno {
+  --c-c: var(--c-compleanno);
+}
+
+.circolari-app .list {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+.circolari-app .it {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border-left: 5px solid var(--c-c);
+  background: var(--c-bg);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+.circolari-app .it small {
+  display: block;
+  color: var(--c-mute);
+}
+.circolari-app .em {
+  font-size: 1.3rem;
+}
+.circolari-app .none {
+  color: var(--c-mute);
+  list-style: none;
+}
+
+.circolari-app dialog {
+  border: 0;
+  border-radius: 24px;
+  padding: 22px;
+  width: min(440px, calc(100% - 24px));
+  background: var(--c-card);
+  color: var(--c-ink);
+  margin: auto;
+}
+.circolari-app dialog::backdrop {
+  background: rgba(10, 12, 40, 0.55);
+}
+.circolari-app dialog h2 {
+  font: 700 1.4rem Georgia, serif;
+  margin-bottom: 6px;
+}
+.circolari-app label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--c-mute);
+  margin-top: 12px;
+}
+.circolari-app input,
+.circolari-app select,
+.circolari-app textarea {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--c-ink);
+  background: var(--c-bg);
+  border: 1px solid var(--c-line);
+  border-radius: 12px;
+  padding: 10px;
+}
+.circolari-app .two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.circolari-app .btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+.circolari-app .btns.col {
+  flex-direction: column;
+}
+.circolari-app .row {
+  display: flex;
+  gap: 10px;
+}
+.circolari-app .row button {
+  flex: 1;
+}
+.circolari-app .pri,
+.circolari-app .sec {
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid var(--c-line);
+  background: none;
+  flex: 1;
+}
+.circolari-app .pri {
+  background: var(--c-pri);
+  border-color: var(--c-pri);
+  color: #fff;
+  font-weight: 600;
+}
+.circolari-app .danger {
+  color: var(--c-warn);
+}
+.circolari-app .tag {
+  display: inline-block;
+  color: var(--c-c);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.circolari-app .notes {
+  margin-top: 10px;
+  padding: 10px;
+  background: var(--c-bg);
+  border-radius: 12px;
+  white-space: pre-wrap;
+}
+.circolari-app .fab {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  background: var(--c-pri);
+  color: #fff;
+  border: 0;
+  border-radius: 99px;
+  padding: 14px 22px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(67, 56, 202, 0.4);
+  z-index: 50;
+}
+.circolari-app footer {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+}
+.circolari-app .link {
+  background: none;
+  border: 0;
+  color: var(--c-mute);
+  text-decoration: underline;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.circolari-app #toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(90px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  background: #14183a;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  max-width: 88%;
+  text-align: center;
+  z-index: 99;
+}
+.circolari-app #toast.on {
+  opacity: 1;
+}
+
+/* === Drawer (MediaDrawer + GmailDrawer) ===
+ * Dialog più larghi per i drawer, con header dotato di titolo + X chiudi.
+ */
+.circolari-app dialog.drawer {
+  width: min(760px, calc(100% - 24px));
+  max-width: min(760px, calc(100% - 24px));
+  padding: 0;
+  overflow: hidden;
+}
+.circolari-app .drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--c-line);
+  position: sticky;
+  top: 0;
+  background: var(--c-card);
+  z-index: 2;
+}
+.circolari-app .drawer-head h2 {
+  margin: 0;
+  font: 700 1.3rem Georgia, serif;
+  flex: 1;
+}
+.circolari-app .drawer-close {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--c-bg);
+  color: var(--c-ink);
+  font-size: 1.4rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.circolari-app .drawer-close:hover {
+  background: var(--c-line);
+}
+.circolari-app .drawer-close:active {
+  transform: scale(0.92);
+}
+.circolari-app .drawer-body {
+  padding: 16px 20px 20px;
+  max-height: calc(85vh - 60px);
+  overflow-y: auto;
+}
+.circolari-app .err-box {
+  background: rgba(229, 56, 59, 0.08);
+  border: 1px solid rgba(229, 56, 59, 0.3);
+  border-radius: 12px;
+  padding: 12px;
+  margin: 8px 0;
+  color: var(--c-warn);
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  line-height: 1.5;
+}
